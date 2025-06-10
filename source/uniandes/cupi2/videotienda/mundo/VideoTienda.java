@@ -147,7 +147,7 @@ public class VideoTienda
      * @param cedula C�dula del cliente. cedula != null.
      * @return el cliente correspondiente a la c�dula, o null si no hay un cliente con la c�dula dada.
      */
-    public Cliente buscarCliente( String cedula )
+    public Cliente buscarCliente( String cedula ) throws Exception
     {
     	//TODO implementar
     	try {
@@ -158,16 +158,38 @@ public class VideoTienda
     				}
     			}
     		} else if (cedula == null) {
-    			throw new Exception("Ingresa un número de cédula valido");
-    		} else {
-    			return null;
+    			throw new Exception("No ingresaste un número de cédula. Por favor ingresa uno");
     		}
     	} catch ( Exception e) {
     		throw new Exception("Error al buscar el cliente");
     	}
+    	return null;
     }
 
-
+    /**
+     * Busca la película dado el título.
+     * @param título de la película. titulo != null.
+     * @return la película correspondiente al título, o null si no hay una película con el título dado.
+     * @throws Exception 
+     */
+    public Pelicula buscarPelicula( String titulo ) throws Exception
+    {
+    	try {
+    		if (titulo != null) {
+    			for (Pelicula pelicula : catalogo) {
+    				if (pelicula.darTitulo() == titulo) {
+    					return pelicula;
+    				}
+    			}
+    		} else {
+    			throw new Exception("No ingresaste un título.  Por favor ingresa uno");
+    		}
+    	} catch ( Exception e) {
+    		throw new Exception("Error al buscar la película");
+    	}
+		return null;
+    }
+    
 
     /**
      * Adiciona el monto dado al saldo disponible del cliente. <br>
