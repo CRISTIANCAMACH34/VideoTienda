@@ -136,6 +136,7 @@ public class VideoTienda
     			}
     			Cliente newCliente = new Cliente(cedula, nombre, direccion);
     			clientes.add(newCliente);
+    			break;
     		}
     	} catch ( Exception e) {
     		throw new Exception("Error al registrar el nuevo cliente");
@@ -202,6 +203,25 @@ public class VideoTienda
     public void cargarSaldoCliente( String cedula, int monto ) throws Exception
     {
     	//TODO implementar
+    	try {
+    		if (cedula != null && monto > 0) {
+    			for (Cliente cliente : clientes) {
+    				if (cliente.darCedula() == cedula) {
+    					cliente.cargarSaldo(monto);
+    					break;
+    				}
+    			}
+    		} else if (monto < 1) {
+    			throw new Exception("El monto es menor que cero.");
+    		} else if (cedula == null) {
+    			throw new Exception("Completa el campo de cédula.");
+    		}
+    		else {
+    			throw new Exception("El número de cédula no se encuentra.");
+    		}
+    	} catch ( Exception e) {
+    		throw new Exception("Error al cargar el saldo");
+    	}
     }
 
     /**
