@@ -44,11 +44,6 @@ public class VideoTienda
     //TODO declare el atributo
     private ArrayList<Pelicula> catalogo;
     
-    /**
-     * Alquiladas
-     */
-    private ArraList<>
-    
     //-----------------------------------------------------------------
     // Constructores
     //-----------------------------------------------------------------
@@ -207,7 +202,6 @@ public class VideoTienda
      */
     public void cargarSaldoCliente( String cedula, int monto ) throws Exception
     {
-    	//TODO implementar
     	try {
     		if (cedula != null && monto > 0) {
     			for (Cliente cliente : clientes) {
@@ -242,13 +236,12 @@ public class VideoTienda
      */
     public int alquilarPelicula( String titulo, String cedula ) throws Exception
     {
-    	//TODO implementar
     	try {
     		if (titulo != null && cedula != null) {
     			Pelicula aPelicula = buscarPelicula(titulo);
     			Cliente aCliente = buscarCliente(cedula);
     			if (aCliente != null && aPelicula != null) {
-    				Copia aCopia = aPelicula.agregarCopia();
+    				Copia aCopia = aPelicula.alquilarCopia();
     				aCliente.alquilarCopia(aCopia);
     			} else if (aCliente == null) {
     				throw new Exception("El cliente no existe");
@@ -275,13 +268,23 @@ public class VideoTienda
      */
     public void devolverCopia( String titulo, int numeroCopia, String cedula ) throws Exception
     {
-    	//TODO implementar
-
+    	try {
+    		if (titulo != null && cedula != null && numeroCopia != 0) {
+    			Pelicula aPelicula = buscarPelicula(titulo);
+    			Cliente aCliente = buscarCliente(cedula);
+    			if (aCliente != null && aPelicula != null) {
+    				aPelicula.devolverCopia(numeroCopia);
+    				aCliente.devolverCopia(titulo, numeroCopia);
+    			} else if (aCliente == null) {
+    				throw new Exception("El cliente no existe");
+    			} else if (aPelicula == null) {
+    				throw new Exception("La película no existe");
+    			}
+    		}
+    	} catch (Exception e) {
+    		throw new Exception("Error al devolver la copia");
+    	}
     }
-
-
-
-
 
     /**
      * Retorna la lista de clientes de la videotienda
