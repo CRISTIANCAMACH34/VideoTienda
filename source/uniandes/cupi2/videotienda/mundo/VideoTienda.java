@@ -134,8 +134,8 @@ public class VideoTienda
     			if (cedula == null || nombre == null || direccion == null) {
     				throw new Exception("Completa todos los campos");
     			}
-    			
-    			
+    			Cliente newCliente = new Cliente(cedula, nombre, direccion);
+    			clientes.add(newCliente);
     		}
     	} catch ( Exception e) {
     		throw new Exception("Error al registrar el nuevo cliente");
@@ -150,6 +150,21 @@ public class VideoTienda
     public Cliente buscarCliente( String cedula )
     {
     	//TODO implementar
+    	try {
+    		if (cedula != null) {
+    			for (Cliente cliente : clientes) {
+    				if (cliente.darCedula() == cedula) {
+    					return cliente;
+    				}
+    			}
+    		} else if (cedula == null) {
+    			throw new Exception("Ingresa un número de cédula valido");
+    		} else {
+    			return null;
+    		}
+    	} catch ( Exception e) {
+    		throw new Exception("Error al buscar el cliente");
+    	}
     }
 
 
