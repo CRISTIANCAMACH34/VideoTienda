@@ -44,6 +44,11 @@ public class VideoTienda
     //TODO declare el atributo
     private ArrayList<Pelicula> catalogo;
     
+    /**
+     * Alquiladas
+     */
+    private ArraList<>
+    
     //-----------------------------------------------------------------
     // Constructores
     //-----------------------------------------------------------------
@@ -238,6 +243,25 @@ public class VideoTienda
     public int alquilarPelicula( String titulo, String cedula ) throws Exception
     {
     	//TODO implementar
+    	try {
+    		if (titulo != null && cedula != null) {
+    			Pelicula aPelicula = buscarPelicula(titulo);
+    			Cliente aCliente = buscarCliente(cedula);
+    			if (aCliente != null && aPelicula != null) {
+    				Copia aCopia = aPelicula.agregarCopia();
+    				aCliente.alquilarCopia(aCopia);
+    			} else if (aCliente == null) {
+    				throw new Exception("El cliente no existe");
+    			} else if (aPelicula == null) {
+    				throw new Exception("La película no existe");
+    			}
+    		} else {
+    			if (titulo == null) throw new Exception("Por favor ingresa un título");
+    			if (cedula == null) throw new Exception("Por favor ingresa una cédula");
+    		}
+    	} catch ( Exception e) {
+    		throw new Exception("Error al aquilar una película");
+    	}
     }
 
     /**
