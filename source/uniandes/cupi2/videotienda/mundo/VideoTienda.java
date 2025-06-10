@@ -42,7 +42,7 @@ public class VideoTienda
      * Cat�logo de pel�culas
      */
     //TODO declare el atributo
-    private ArrayList<Pelicula> peliculas;
+    private ArrayList<Pelicula> catalogo;
     
     //-----------------------------------------------------------------
     // Constructores
@@ -57,7 +57,7 @@ public class VideoTienda
     	//TODO implementar inicializando los atributos
     	tarifaDiaria = unaTarifa;
     	clientes = new ArrayList<>();
-    	peliculas = new ArrayList<>();
+    	catalogo = new ArrayList<>();
     }
 
     //-----------------------------------------------------------------
@@ -74,9 +74,9 @@ public class VideoTienda
     {
         String titulo, dato;
         int peliculas, copias;
-        Pelicula pel;
-
-        //Limpia los datos iniciales de pel�culas
+        Pelicula pelicula;
+        
+		//Limpia los datos iniciales de pel�culas
         catalogo.clear( );
 
         //Obtiene los datos
@@ -100,13 +100,13 @@ public class VideoTienda
                 }
 
                 copias = Integer.parseInt( datos.getProperty( "pelicula" + i + ".copias" ) );
-                pel = new Pelicula( titulo );
+                pelicula = new Pelicula( titulo );
                 for( int j = 1; j <= copias; j++ )
                 {
-                    pel.agregarCopia( );
+                    pelicula.agregarCopia( );
                 }
 
-                catalogo.add( pel );
+                catalogo.add( pelicula );
             }
         }
         catch( Exception e )
@@ -126,6 +126,20 @@ public class VideoTienda
     public void afiliarCliente( String cedula, String nombre, String direccion ) throws Exception
     {
     	//TODO implementar
+    	try {
+    		for (Cliente cliente : clientes) {
+    			if (cliente.darCedula() == cedula) {
+    				throw new Exception("El número de cédula ya se encuentra registrado");
+    			}
+    			if (cedula == null || nombre == null || direccion == null) {
+    				throw new Exception("Completa todos los campos");
+    			}
+    			
+    			
+    		}
+    	} catch ( Exception e) {
+    		throw new Exception("Error al registrar el nuevo cliente");
+    	}
     }
     
     /**
