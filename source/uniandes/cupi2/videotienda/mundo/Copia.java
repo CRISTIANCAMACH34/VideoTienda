@@ -18,4 +18,16 @@ public class Copia {
 	public String darTituloPelicula() {
 		return tituloPelicula;
 	}
+	
+	public boolean esIgualA(Copia otra) throws Exception
+	{
+		if (otra == null) {
+			throw new Exception("No ingreso una copia valida");
+		}
+		try {			
+			return otra==this;
+		} catch (Exception e) {
+			throw new Exception("Error al comparar las copias");
+		}
+	}
 }
