@@ -285,6 +285,17 @@ public class VideoTienda
     		throw new Exception("Error al devolver la copia");
     	}
     }
+    
+    /**
+     * Devuelve a la videotienda una copia alquilada por el cliente identificado con la c�dula dada. <br>
+     * <b>post: </b> Si la copia est� alquilada por el cliente, la copia se deja disponible, y el cliente ya no la tiene entre sus prestadas.
+     * @param titulo T�tulo de la pel�cula. titulo != null.
+     * @param numeroCopia N�mero de copia a devolver.
+     * @param cedula C�dula del cliente. cedula != null.
+     * @throws Exception Si el cliente no existe.
+     * @throws Exception Si el cliente no tiene la copia alquilada.
+     */
+    public void agregarCopiaPelicula()
 
     /**
      * Retorna la lista de clientes de la videotienda
