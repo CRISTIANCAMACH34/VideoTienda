@@ -331,7 +331,10 @@ public class VideoTienda
      * @return lista de pel�culas existentes. lista != null.
      */
     //TODO Definir la signatura del m�todo de acuerdo a la documentaci�n e implementarlo.
-
+    public ArrayList<Pelicula> darCatalogo() 
+    {
+    	return catalogo;
+    }
     
     //-----------------------------------------------------------------
     // Puntos de Extensi�n
