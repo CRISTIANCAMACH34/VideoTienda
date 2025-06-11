@@ -325,6 +325,10 @@ public class VideoTienda
      * @return ArrayList la lista de clientes
      */
     //TODO Definir la signatura del m�todo de acuerdo a la documentaci�n e implementarlo.
+    public ArrayList<Cliente> darListaClientes() 
+    {
+    	return clientes;
+    }
 
     /**
      * Retorna el cat�logo de pel�culas de la videotienda
