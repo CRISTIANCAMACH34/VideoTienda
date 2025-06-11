@@ -1,8 +1,8 @@
 /**
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
  * $Id: VideoTienda.java,v 1.1 2005/12/16 15:13:33 k-marcos Exp $
- * Universidad de los Andes (Bogotá - Colombia)
- * Departamento de Ingeniería de Sistemas y Computación 
+ * Universidad de los Andes (Bogotï¿½ - Colombia)
+ * Departamento de Ingenierï¿½a de Sistemas y Computaciï¿½n 
  * Licenciado bajo el esquema Academic Free License version 2.1 
  *
  * Proyecto Cupi2 (http://cupi2.uniandes.edu.co)
@@ -36,42 +36,47 @@ public class VideoTienda
      * Clientes
      */
     //TODO declare el atributo
+    private ArrayList<Cliente> clientes;
 
     /**
-     * Catálogo de películas
+     * Catï¿½logo de pelï¿½culas
      */
     //TODO declare el atributo
+    private ArrayList<Pelicula> catalogo;
     
     //-----------------------------------------------------------------
     // Constructores
     //-----------------------------------------------------------------
 
     /**
-     * Crea una videotienda sin películas registradas.
+     * Crea una videotienda sin pelï¿½culas registradas.
      * @param unaTarifa Tarifa diaria de alquiler. tarifa > 0.
      */
     public VideoTienda( int unaTarifa )
     {
     	//TODO implementar inicializando los atributos
+    	tarifaDiaria = unaTarifa;
+    	clientes = new ArrayList<>();
+    	catalogo = new ArrayList<>();
     }
 
     //-----------------------------------------------------------------
-    // Métodos
+    // Mï¿½todos
     //-----------------------------------------------------------------
 
     /**
-     * Carga en memoria los datos del archivo de películas. <br>
-     * <b>post: </b> Se almacenan los datos de las películas del archivo en el catálogo eliminando las películas anteriiores. <br>
-     * @param archivo Nombre del archivo que contiene la información de las películas.
-     * @throws Exception si hay datos inválidos en el archivo o no tiene el formato adecuado.
+     * Carga en memoria los datos del archivo de pelï¿½culas. <br>
+     * <b>post: </b> Se almacenan los datos de las pelï¿½culas del archivo en el catï¿½logo eliminando las pelï¿½culas anteriiores. <br>
+     * @param archivo Nombre del archivo que contiene la informaciï¿½n de las pelï¿½culas.
+     * @throws Exception si hay datos invï¿½lidos en el archivo o no tiene el formato adecuado.
      */
     public void cargarPeliculas( String archivo ) throws Exception
     {
         String titulo, dato;
         int peliculas, copias;
-        Pelicula pel;
-
-        //Limpia los datos iniciales de películas
+        Pelicula pelicula;
+        
+		//Limpia los datos iniciales de pelï¿½culas
         catalogo.clear( );
 
         //Obtiene los datos
@@ -81,13 +86,13 @@ public class VideoTienda
             FileInputStream input = new FileInputStream( archivo );
             datos.load( input );
 
-            //Obtiene el número de películas
+            //Obtiene el nï¿½mero de pelï¿½culas
             peliculas = Integer.parseInt( datos.getProperty( "total.peliculas" ) );
 
             for( int i = 1; i <= peliculas; i++ )
             {
                 dato = "pelicula" + i + ".nombre";
-                //Carga una película
+                //Carga una pelï¿½cula
                 titulo = datos.getProperty( dato );
                 if( titulo == null )
                 {
@@ -95,113 +100,253 @@ public class VideoTienda
                 }
 
                 copias = Integer.parseInt( datos.getProperty( "pelicula" + i + ".copias" ) );
-                pel = new Pelicula( titulo );
+                pelicula = new Pelicula( titulo );
                 for( int j = 1; j <= copias; j++ )
                 {
-                    pel.agregarCopia( );
+                    pelicula.agregarCopia( );
                 }
 
-                catalogo.add( pel );
+                catalogo.add( pelicula );
             }
         }
         catch( Exception e )
         {
-            throw new Exception( "Error al cargar los datos almacenados de películas" );
+            throw new Exception( "Error al cargar los datos almacenados de pelï¿½culas" );
         }
     }
 
     /**
      * Afilia un cliente a la videotienda. <br>
      * <b>post: </b> Se crea un nuevo cliente y se agrega a la lista de clientes de la videotienda.
-     * @param cedula Cédula del cliente a afiliar. cedula != null.
+     * @param cedula Cï¿½dula del cliente a afiliar. cedula != null.
      * @param nombre Nombre del cliente a afiliar. nombre != null.
-     * @param direccion Dirección del cliente a afiliar. direccion != null.
-     * @throws Exception Si la cédula del cliente ya está registrada en la videotienda.
+     * @param direccion Direcciï¿½n del cliente a afiliar. direccion != null.
+     * @throws Exception Si la cï¿½dula del cliente ya estï¿½ registrada en la videotienda.
      */
     public void afiliarCliente( String cedula, String nombre, String direccion ) throws Exception
     {
     	//TODO implementar
+    	try {
+    		for (Cliente cliente : clientes) {
+    			if (cliente.darCedula() == cedula) {
+    				throw new Exception("El nÃºmero de cÃ©dula ya se encuentra registrado");
+    			}
+    			if (cedula == null || nombre == null || direccion == null) {
+    				throw new Exception("Completa todos los campos");
+    			}
+    			Cliente newCliente = new Cliente(cedula, nombre, direccion);
+    			clientes.add(newCliente);
+    			break;
+    		}
+    	} catch ( Exception e) {
+    		throw new Exception("Error al registrar el nuevo cliente");
+    	}
     }
     
     /**
-     * Busca el cliente dada la cédula.
-     * @param cedula Cédula del cliente. cedula != null.
-     * @return el cliente correspondiente a la cédula, o null si no hay un cliente con la cédula dada.
+     * Busca el cliente dada la cï¿½dula.
+     * @param cedula Cï¿½dula del cliente. cedula != null.
+     * @return el cliente correspondiente a la cï¿½dula, o null si no hay un cliente con la cï¿½dula dada.
      */
-    public Cliente buscarCliente( String cedula )
+    public Cliente buscarCliente( String cedula ) throws Exception
     {
     	//TODO implementar
+    	try {
+    		if (cedula != null) {
+    			for (Cliente cliente : clientes) {
+    				if (cliente.darCedula() == cedula) {
+    					return cliente;
+    				}
+    			}
+    		} else if (cedula == null) {
+    			throw new Exception("No ingresaste un nÃºmero de cÃ©dula. Por favor ingresa uno");
+    		}
+    	} catch ( Exception e) {
+    		throw new Exception("Error al buscar el cliente");
+    	}
+    	return null;
     }
 
-
+    /**
+     * Busca la pelÃ­cula dado el tÃ­tulo.
+     * @param tÃ­tulo de la pelÃ­cula. titulo != null.
+     * @return la pelÃ­cula correspondiente al tÃ­tulo, o null si no hay una pelÃ­cula con el tÃ­tulo dado.
+     * @throws Exception 
+     */
+    public Pelicula buscarPelicula( String titulo ) throws Exception
+    {
+    	try {
+    		if (titulo != null) {
+    			for (Pelicula pelicula : catalogo) {
+    				if (pelicula.darTitulo() == titulo) {
+    					return pelicula;
+    				}
+    			}
+    		} else {
+    			throw new Exception("No ingresaste un tÃ­tulo.  Por favor ingresa uno");
+    		}
+    	} catch ( Exception e) {
+    		throw new Exception("Error al buscar la pelÃ­cula");
+    	}
+		return null;
+    }
+    
 
     /**
      * Adiciona el monto dado al saldo disponible del cliente. <br>
-     * <b>post: </b> el saldo del cliente identificado con la cédula se incrementó con el monto dado. <br>
-     * @param cedula Cédula del cliente. cedula != null.
+     * <b>post: </b> el saldo del cliente identificado con la cï¿½dula se incrementï¿½ con el monto dado. <br>
+     * @param cedula Cï¿½dula del cliente. cedula != null.
      * @param monto Cantidad de dinero a adicionar en la cuenta. monto > 0.
      * @throws Exception Si el cliente no existe.
      * @throws Exception Si la recarga de saldo es menor que 0.
      */
     public void cargarSaldoCliente( String cedula, int monto ) throws Exception
     {
-    	//TODO implementar
+    	try {
+    		if (cedula != null && monto > 0) {
+    			for (Cliente cliente : clientes) {
+    				if (cliente.darCedula() == cedula) {
+    					cliente.cargarSaldo(monto);
+    					break;
+    				}
+    			}
+    		} else if (monto < 1) {
+    			throw new Exception("El monto es menor que cero.");
+    		} else if (cedula == null) {
+    			throw new Exception("Completa el campo de cÃ©dula.");
+    		}
+    		else {
+    			throw new Exception("El nÃºmero de cÃ©dula no se encuentra.");
+    		}
+    	} catch ( Exception e) {
+    		throw new Exception("Error al cargar el saldo");
+    	}
     }
 
     /**
-     * Alquila una película a un cliente. <br>
-     * <b>post: </b> si hay copias disponibles, alquila una copia de la película, adicionándola a la lista de alquiladas del cliente y de la videotienda.
-     * @param titulo Título de la película. titulo != null.
-     * @param cedula Cédula del cliente. cedula != null.
-     * @return número de copia alquilada.
-     * @throws Exception Si la película no existe.
+     * Alquila una pelï¿½cula a un cliente. <br>
+     * <b>post: </b> si hay copias disponibles, alquila una copia de la pelï¿½cula, adicionï¿½ndola a la lista de alquiladas del cliente y de la videotienda.
+     * @param titulo Tï¿½tulo de la pelï¿½cula. titulo != null.
+     * @param cedula Cï¿½dula del cliente. cedula != null.
+     * @return nï¿½mero de copia alquilada.
+     * @throws Exception Si la pelï¿½cula no existe.
      * @throws Exception Si el cliente no existe.
      * @throws Exception Si no hay copias disponibles.
      * @throws Exception Si el saldo del cliente no es suficiente para el alquiler.
      */
     public int alquilarPelicula( String titulo, String cedula ) throws Exception
     {
-    	//TODO implementar
+    	try {
+    		if (titulo != null && cedula != null) {
+    			Pelicula aPelicula = buscarPelicula(titulo);
+    			Cliente aCliente = buscarCliente(cedula);
+    			if (aCliente != null && aPelicula != null) {
+    				Copia aCopia = aPelicula.alquilarCopia();
+    				aCliente.alquilarCopia(aCopia);
+    			} else if (aCliente == null) {
+    				throw new Exception("El cliente no existe");
+    			} else if (aPelicula == null) {
+    				throw new Exception("La pelÃ­cula no existe");
+    			}
+    		} else {
+    			if (titulo == null) throw new Exception("Por favor ingresa un tÃ­tulo");
+    			if (cedula == null) throw new Exception("Por favor ingresa una cÃ©dula");
+    		}
+    	} catch ( Exception e) {
+    		throw new Exception("Error al aquilar una pelÃ­cula");
+    	}
     }
 
     /**
-     * Devuelve a la videotienda una copia alquilada por el cliente identificado con la cédula dada. <br>
-     * <b>post: </b> Si la copia está alquilada por el cliente, la copia se deja disponible, y el cliente ya no la tiene entre sus prestadas.
-     * @param titulo Título de la película. titulo != null.
-     * @param numeroCopia Número de copia a devolver.
-     * @param cedula Cédula del cliente. cedula != null.
+     * Devuelve a la videotienda una copia alquilada por el cliente identificado con la cï¿½dula dada. <br>
+     * <b>post: </b> Si la copia estï¿½ alquilada por el cliente, la copia se deja disponible, y el cliente ya no la tiene entre sus prestadas.
+     * @param titulo Tï¿½tulo de la pelï¿½cula. titulo != null.
+     * @param numeroCopia Nï¿½mero de copia a devolver.
+     * @param cedula Cï¿½dula del cliente. cedula != null.
      * @throws Exception Si el cliente no existe.
      * @throws Exception Si el cliente no tiene la copia alquilada.
      */
     public void devolverCopia( String titulo, int numeroCopia, String cedula ) throws Exception
     {
-    	//TODO implementar
-
+		Pelicula aPelicula = buscarPelicula(titulo);
+		Cliente aCliente = buscarCliente(cedula);
+	    if (aCliente == null) {
+	    	throw new Exception("El cliente no existe");
+	    } else if (aPelicula == null) {
+	    	throw new Exception("La pelÃ­cula no existe");
+	    }
+    	try {
+    		if (titulo != null && cedula != null && numeroCopia != 0) {
+    			if (aCliente != null && aPelicula != null) {
+    				aPelicula.devolverCopia(numeroCopia);
+    				aCliente.devolverCopia(titulo, numeroCopia);
+    			}
+    		}
+    	} catch (Exception e) {
+    		throw new Exception("Error al devolver la copia");
+    	}
+    }
+    
+    /**
+     * Devuelve a la videotienda una copia alquilada por el cliente identificado con la cï¿½dula dada. <br>
+     * <b>post: </b> Si la copia estï¿½ alquilada por el cliente, la copia se deja disponible, y el cliente ya no la tiene entre sus prestadas.
+     * @param titulo Tï¿½tulo de la pelï¿½cula. titulo != null.
+     * @param numeroCopia Nï¿½mero de copia a devolver.
+     * @param cedula Cï¿½dula del cliente. cedula != null.
+     * @throws Exception Si el cliente no existe.
+     * @throws Exception Si el cliente no tiene la copia alquilada.
+     */
+    public void agregarCopiaPelicula(String titulo) throws Exception
+    {
+    	Pelicula aPelicula = buscarPelicula(titulo);
+    	if (aPelicula == null) {
+    		throw new Exception("No se encontro la pelÃ­cula");
+    	}
+    	try {
+    		aPelicula.agregarCopia();
+    	} catch (Exception e) {
+    		throw new Exception("Error al agregar la copia");
+    	}
     }
 
-
-
-
-
+    public void modificarTarifa(int nuevaTarifa) throws Exception
+    {
+    	if(nuevaTarifa < 1 || nuevaTarifa == 0) {
+    		throw new Exception("Ingresa una tarifa valida");
+    	}
+    	try {
+    		tarifaDiaria = nuevaTarifa;
+    	} catch (Exception e) {
+    		throw new Exception("Error al modificar la nueva tarifa");
+    	}
+    }
     /**
      * Retorna la lista de clientes de la videotienda
      * @return ArrayList la lista de clientes
      */
-    //TODO Definir la signatura del método de acuerdo a la documentación e implementarlo.
+    //TODO Definir la signatura del mï¿½todo de acuerdo a la documentaciï¿½n e implementarlo.
+    public ArrayList<Cliente> darListaClientes() 
+    {
+    	return clientes;
+    }
 
     /**
-     * Retorna el catálogo de películas de la videotienda
-     * @return lista de películas existentes. lista != null.
+     * Retorna el catï¿½logo de pelï¿½culas de la videotienda
+     * @return lista de pelï¿½culas existentes. lista != null.
      */
-    //TODO Definir la signatura del método de acuerdo a la documentación e implementarlo.
-
+    //TODO Definir la signatura del mï¿½todo de acuerdo a la documentaciï¿½n e implementarlo.
+    public ArrayList<Pelicula> darCatalogo() 
+    {
+    	return catalogo;
+    }
+    
     //-----------------------------------------------------------------
-    // Puntos de Extensión
+    // Puntos de Extensiï¿½n
     //-----------------------------------------------------------------
 
     /**
-     * Método para la extensión 1
-     * @return Respuesta de la extensión 1
+     * Mï¿½todo para la extensiï¿½n 1
+     * @return Respuesta de la extensiï¿½n 1
      */
     public String metodo1( )
     {
@@ -209,8 +354,8 @@ public class VideoTienda
     }
 
     /**
-     * Método para la extensión 2
-     * @return Respuesta de la extensión 2
+     * Mï¿½todo para la extensiï¿½n 2
+     * @return Respuesta de la extensiï¿½n 2
      */
     public String metodo2( )
     {
