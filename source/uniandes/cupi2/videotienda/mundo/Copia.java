@@ -10,4 +10,8 @@ public class Copia {
 		tituloPelicula = laPelicula;
 		codigo = elCodigo;
 	}
+	
+	public int darCodigo() {
+		return codigo;
+	}
 }
