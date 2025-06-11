@@ -14,4 +14,8 @@ public class Copia {
 	public int darCodigo() {
 		return codigo;
 	}
+	
+	public String darTituloPelicula() {
+		return tituloPelicula;
+	}
 }
