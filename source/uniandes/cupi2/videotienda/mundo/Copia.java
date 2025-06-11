@@ -25,7 +25,7 @@ public class Copia {
 			throw new Exception("No ingreso una copia valida");
 		}
 		try {			
-			return otra==this;
+			return this.equals(otra);
 		} catch (Exception e) {
 			throw new Exception("Error al comparar las copias");
 		}
