@@ -268,17 +268,18 @@ public class VideoTienda
      */
     public void devolverCopia( String titulo, int numeroCopia, String cedula ) throws Exception
     {
+		Pelicula aPelicula = buscarPelicula(titulo);
+		Cliente aCliente = buscarCliente(cedula);
+	    if (aCliente == null) {
+	    	throw new Exception("El cliente no existe");
+	    } else if (aPelicula == null) {
+	    	throw new Exception("La película no existe");
+	    }
     	try {
     		if (titulo != null && cedula != null && numeroCopia != 0) {
-    			Pelicula aPelicula = buscarPelicula(titulo);
-    			Cliente aCliente = buscarCliente(cedula);
     			if (aCliente != null && aPelicula != null) {
     				aPelicula.devolverCopia(numeroCopia);
     				aCliente.devolverCopia(titulo, numeroCopia);
-    			} else if (aCliente == null) {
-    				throw new Exception("El cliente no existe");
-    			} else if (aPelicula == null) {
-    				throw new Exception("La película no existe");
     			}
     		}
     	} catch (Exception e) {
@@ -295,8 +296,30 @@ public class VideoTienda
      * @throws Exception Si el cliente no existe.
      * @throws Exception Si el cliente no tiene la copia alquilada.
      */
-    public void agregarCopiaPelicula()
+    public void agregarCopiaPelicula(String titulo) throws Exception
+    {
+    	Pelicula aPelicula = buscarPelicula(titulo);
+    	if (aPelicula == null) {
+    		throw new Exception("No se encontro la película");
+    	}
+    	try {
+    		aPelicula.agregarCopia();
+    	} catch (Exception e) {
+    		throw new Exception("Error al agregar la copia");
+    	}
+    }
 
+    public void modificarTarifa(int nuevaTarifa) throws Exception
+    {
+    	if(nuevaTarifa < 1 || nuevaTarifa == 0) {
+    		throw new Exception("Ingresa una tarifa valida");
+    	}
+    	try {
+    		tarifaDiaria = nuevaTarifa;
+    	} catch (Exception e) {
+    		throw new Exception("Error al modificar la nueva tarifa");
+    	}
+    }
     /**
      * Retorna la lista de clientes de la videotienda
      * @return ArrayList la lista de clientes
@@ -309,6 +332,7 @@ public class VideoTienda
      */
     //TODO Definir la signatura del m�todo de acuerdo a la documentaci�n e implementarlo.
 
+    
     //-----------------------------------------------------------------
     // Puntos de Extensi�n
     //-----------------------------------------------------------------
