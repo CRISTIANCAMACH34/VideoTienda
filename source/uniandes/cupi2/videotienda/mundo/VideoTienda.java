@@ -123,24 +123,19 @@ public class VideoTienda
      * @param direccion Direcci�n del cliente a afiliar. direccion != null.
      * @throws Exception Si la c�dula del cliente ya est� registrada en la videotienda.
      */
-    public void afiliarCliente( String cedula, String nombre, String direccion ) throws Exception
-    {
-    	//TODO implementar
-    	try {
-    		for (Cliente cliente : clientes) {
-    			if (cliente.darCedula() == cedula) {
-    				throw new Exception("El número de cédula ya se encuentra registrado");
-    			}
-    			if (cedula == null || nombre == null || direccion == null) {
-    				throw new Exception("Completa todos los campos");
-    			}
-    			Cliente newCliente = new Cliente(cedula, nombre, direccion);
-    			clientes.add(newCliente);
-    			break;
-    		}
-    	} catch ( Exception e) {
-    		throw new Exception("Error al registrar el nuevo cliente");
-    	}
+    public void afiliarCliente(String cedula, String nombre, String direccion) throws Exception {
+        if (cedula == null || nombre == null || direccion == null) {
+            throw new Exception("Completa todos los campos");
+        }
+
+        for (Cliente cliente : clientes) {
+            if (cliente.darCedula().equals(cedula)) {
+                throw new Exception("El número de cédula ya se encuentra registrado");
+            }
+        }
+
+        Cliente nuevoCliente = new Cliente(cedula, nombre, direccion);
+        clientes.add(nuevoCliente);
     }
     
     /**
@@ -308,7 +303,6 @@ public class VideoTienda
             throw new Exception("No se encontró la película");
         }
 
-        // Si agregarCopia() no lanza excepción, no es necesario try-catch
         aPelicula.agregarCopia();
     }
 

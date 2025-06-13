@@ -55,11 +55,6 @@ public class Pelicula
      */
     public Pelicula(String unTitulo)
     {
-        //Se verifica que el titulo no sea null
-        if(unTitulo == null) {
-            throw new IllegalArgumentException("El título no puede estar vacío");
-        }
-        
         this.titulo = unTitulo;
         this.disponibles = new ArrayList<Copia>();
         this.prestadas = new ArrayList<Copia>();
@@ -77,10 +72,11 @@ public class Pelicula
      */
     public int agregarCopia()
     {
-        Copia nuevaCopia = new Copia(this.titulo, this.codigoSiguienteCopia);
+        Copia nuevaCopia = new Copia(titulo, codigoSiguienteCopia);
         this.disponibles.add(nuevaCopia);
+        int codigoCreado = codigoSiguienteCopia;
         this.codigoSiguienteCopia++;
-        return nuevaCopia.darCodigo();
+        return codigoCreado;
     }
 
     /**
@@ -88,15 +84,14 @@ public class Pelicula
      * <b>post: </b> la copia queda en la lista de prestadas.
      * @return Copia que ha sido alquilada o null si no hay disponibles.
      */
-    public Copia alquilarCopia()
+    public Copia alquilarCopia( )
     {
-        if(this.disponibles.isEmpty()){
-            return null;
+    	if (disponibles.size() > 0) {
+            Copia copia = disponibles.remove(0);
+            prestadas.add(copia);
+            return copia;
         }
-        
-        Copia copia = this.disponibles.remove(0);
-        this.prestadas.add(copia);
-        return copia; 
+        return null;
     }
 
     /**

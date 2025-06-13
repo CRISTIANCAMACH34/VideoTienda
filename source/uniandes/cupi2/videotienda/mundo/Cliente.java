@@ -24,7 +24,7 @@ public class Cliente {
      * @param elNombre Nombre del cliente
      * @param laDireccion Dirección del cliente
      */
-    public Cliente(String elNombre, String laCedula , String laDireccion) {
+    public Cliente(String laCedula, String elNombre, String laDireccion) {
         cedula = laCedula;
         nombre = elNombre;
         direccion = laDireccion;

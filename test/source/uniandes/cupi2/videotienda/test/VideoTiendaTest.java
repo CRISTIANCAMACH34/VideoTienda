@@ -99,7 +99,6 @@ public class VideoTiendaTest extends TestCase
         {
             fail( "Los clientes se debieron afiliar sin problemas" );
         }
-
     }
 
     /**
@@ -230,7 +229,7 @@ public class VideoTiendaTest extends TestCase
     public void testBuscarClientes( ) throws Exception
     {
         setupEscenario2( );
-
+        
         //Busca un cliente que si existe
         Cliente c = videotienda.buscarCliente( cliente2.darCedula( ) );
         assertEquals( cliente2.darCedula( ), c.darCedula( ) );

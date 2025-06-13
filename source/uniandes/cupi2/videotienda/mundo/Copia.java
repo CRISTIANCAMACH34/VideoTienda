@@ -7,7 +7,7 @@ public class Copia {
 	private int codigo;
 
 	public Copia(String laPelicula, int elCodigo) {
-		tituloPelicula = laPelicula;
+		tituloPelicula = laPelicula.trim();
 		codigo = elCodigo;
 	}
 	
@@ -19,15 +19,12 @@ public class Copia {
 		return tituloPelicula;
 	}
 	
-	public boolean esIgualA(Copia otra) throws Exception
-	{
-		if (otra == null) {
-			throw new Exception("No ingreso una copia valida");
-		}
-		try {			
-			return this.equals(otra);
-		} catch (Exception e) {
-			throw new Exception("Error al comparar las copias");
-		}
+	public boolean esIgualA(Copia otra) throws Exception {
+	    if (otra == null) {
+	        throw new Exception("No ingreso una copia valida");
+	    }
+
+	    return  this.darTituloPelicula().equals(otra.darTituloPelicula());
 	}
+
 }

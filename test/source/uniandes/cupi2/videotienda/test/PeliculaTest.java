@@ -95,9 +95,10 @@ public class PeliculaTest extends TestCase
     public void testAlquilarCopia( ) throws Exception
     {
         setupEscenario2( );
-
+        
         Copia copia1 = pelicula.alquilarCopia( );
         assertEquals( titulo, copia1.darTituloPelicula( ) );
+        System.out.print(copia1.darCodigo());
         assertEquals( 2, copia1.darCodigo( ) );
         assertEquals( 1, pelicula.darNumeroDisponibles( ) );
 
