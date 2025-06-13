@@ -37,7 +37,9 @@ public class InterfazVideotienda extends JFrame
     // Constantes
     //-----------------------------------------------------------------
 
-    /**
+    private static final long serialVersionUID = 1L;
+
+	/**
      * Tarifa inicial de la videotienda
      */
     private static final int TARIFA_INICIAL = 5000;
@@ -140,7 +142,7 @@ public class InterfazVideotienda extends JFrame
      * Retorna el cat�logo de pel�culas
      * @return cat�logo de pel�culas de la videotienda
      */
-    public ArrayList darCatalogo( )
+    public ArrayList<Pelicula> darCatalogo( )
     {
         return videotienda.darCatalogo( );
     }
@@ -234,7 +236,7 @@ public class InterfazVideotienda extends JFrame
      * Retorna la lista de clientes de la videotienda
      * @return ArrayList con los clientes de la videotienda
      */
-    public ArrayList darListaClientes( )
+    public ArrayList<Cliente> darListaClientes( )
     {
         return videotienda.darListaClientes( );
     }

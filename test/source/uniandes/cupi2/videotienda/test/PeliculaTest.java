@@ -1,8 +1,8 @@
 /**
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
  * $Id: PeliculaTest.java,v 1.1 2005/12/16 15:13:33 k-marcos Exp $ 
- * Universidad de los Andes (Bogotá - Colombia)
- * Departamento de Ingeniería de Sistemas y Computación 
+ * Universidad de los Andes (Bogotï¿½ - Colombia)
+ * Departamento de Ingenierï¿½a de Sistemas y Computaciï¿½n 
  * Licenciado bajo el esquema Academic Free License version 2.1 
  *
  * Proyecto Cupi2 (http://cupi2.uniandes.edu.co)
@@ -17,7 +17,7 @@ import uniandes.cupi2.videotienda.mundo.Copia;
 import uniandes.cupi2.videotienda.mundo.Pelicula;
 
 /**
- * Esta es la clase para probar la clase Película
+ * Esta es la clase para probar la clase Pelï¿½cula
  */
 public class PeliculaTest extends TestCase
 {
@@ -26,30 +26,30 @@ public class PeliculaTest extends TestCase
     //-----------------------------------------------------------------
 
     /**
-     * La película de prueba
+     * La pelï¿½cula de prueba
      */
     private Pelicula pelicula;
 
     /**
-     * Título de la película de prueba
+     * Tï¿½tulo de la pelï¿½cula de prueba
      */
     private String titulo;
 
     //-----------------------------------------------------------------
-    // Métodos
+    // Mï¿½todos
     //-----------------------------------------------------------------
 
     /**
-     * Prepara el escenario 1 con una película con 2 copias disponibles
+     * Prepara el escenario 1 con una pelï¿½cula con 2 copias disponibles
      */
     private void setupEscenario1( )
     {
-        titulo = "Retroceder nunca, rendirse jamás XVII";
+        titulo = "Retroceder nunca, rendirse jamï¿½s XVII";
         pelicula = new Pelicula( titulo );
     }
 
     /**
-     * Prepara el escenario 2 con una película con 2 copias disponibles
+     * Prepara el escenario 2 con una pelï¿½cula con 2 copias disponibles
      */
     private void setupEscenario2( )
     {
@@ -59,7 +59,7 @@ public class PeliculaTest extends TestCase
     }
 
     /**
-     * Prepara el escenario 3 con una película con 1 copia disponible y 1 alquilada
+     * Prepara el escenario 3 con una pelï¿½cula con 1 copia disponible y 1 alquilada
      */
     private void setupEscenario3( )
     {
@@ -68,7 +68,7 @@ public class PeliculaTest extends TestCase
     }
 
     /**
-     * Prueba la creación básica de una película
+     * Prueba la creaciï¿½n bï¿½sica de una pelï¿½cula
      */
     public void testCreacion( )
     {
@@ -79,7 +79,7 @@ public class PeliculaTest extends TestCase
     }
 
     /**
-     * Prueba la adición de copias a las películas
+     * Prueba la adiciï¿½n de copias a las pelï¿½culas
      */
     public void testAdicionarCopia( )
     {
@@ -90,8 +90,9 @@ public class PeliculaTest extends TestCase
 
     /**
      * Valida
+     * @throws Exception 
      */
-    public void testAlquilarCopia( )
+    public void testAlquilarCopia( ) throws Exception
     {
         setupEscenario2( );
 
@@ -112,7 +113,7 @@ public class PeliculaTest extends TestCase
     }
 
     /**
-     * Prueba la devolución de las copias alquiladas
+     * Prueba la devoluciï¿½n de las copias alquiladas
      */
     public void testDevolverCopia( )
     {
@@ -128,17 +129,17 @@ public class PeliculaTest extends TestCase
         }
         catch( Exception e3 )
         {
-            fail( "La copia alquilada se espera que sea la de código 2" );
+            fail( "La copia alquilada se espera que sea la de cï¿½digo 2" );
         }
 
         try
         {
             pelicula.devolverCopia( 1 );
-            fail( "No se espera que la copia 1 esté alquilada" );
+            fail( "No se espera que la copia 1 estï¿½ alquilada" );
         }
         catch( Exception e )
         {
-            assertTrue( "Esta excepción era esperada", true );
+            assertTrue( "Esta excepciï¿½n era esperada", true );
         }
     }
 }

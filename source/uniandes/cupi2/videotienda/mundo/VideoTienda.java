@@ -144,28 +144,25 @@ public class VideoTienda
     }
     
     /**
-     * Busca el cliente dada la c�dula.
-     * @param cedula C�dula del cliente. cedula != null.
-     * @return el cliente correspondiente a la c�dula, o null si no hay un cliente con la c�dula dada.
+     * Busca el cliente dada la cédula.
+     * @param cedula Cédula del cliente. cedula != null.
+     * @return El cliente correspondiente a la cédula, o null si no hay uno.
+     * @throws Exception Si la cédula es null.
      */
-    public Cliente buscarCliente( String cedula ) throws Exception
-    {
-    	//TODO implementar
-    	try {
-    		if (cedula != null) {
-    			for (Cliente cliente : clientes) {
-    				if (cliente.darCedula() == cedula) {
-    					return cliente;
-    				}
-    			}
-    		} else if (cedula == null) {
-    			throw new Exception("No ingresaste un número de cédula. Por favor ingresa uno");
-    		}
-    	} catch ( Exception e) {
-    		throw new Exception("Error al buscar el cliente");
-    	}
-    	return null;
+    public Cliente buscarCliente(String cedula) throws Exception {
+        if (cedula == null) {
+            throw new Exception("No ingresaste un número de cédula. Por favor ingresa uno");
+        }
+
+        for (Cliente cliente : clientes) {
+            if (cedula.equals(cliente.darCedula())) {
+                return cliente;
+            }
+        }
+
+        return null; // No se encontró cliente con esa cédula
     }
+
 
     /**
      * Busca la película dado el título.
@@ -173,22 +170,18 @@ public class VideoTienda
      * @return la película correspondiente al título, o null si no hay una película con el título dado.
      * @throws Exception 
      */
-    public Pelicula buscarPelicula( String titulo ) throws Exception
-    {
-    	try {
-    		if (titulo != null) {
-    			for (Pelicula pelicula : catalogo) {
-    				if (pelicula.darTitulo() == titulo) {
-    					return pelicula;
-    				}
-    			}
-    		} else {
-    			throw new Exception("No ingresaste un título.  Por favor ingresa uno");
-    		}
-    	} catch ( Exception e) {
-    		throw new Exception("Error al buscar la película");
-    	}
-		return null;
+    public Pelicula buscarPelicula(String titulo) throws Exception {
+        if (titulo == null) {
+            throw new Exception("No ingresaste un título. Por favor ingresa uno");
+        }
+
+        for (Pelicula pelicula : catalogo) {
+            if (pelicula.darTitulo().equals(titulo)) {
+                return pelicula;
+            }
+        }
+
+        return null; // No se encontró ninguna película con ese título
     }
     
 
@@ -202,25 +195,26 @@ public class VideoTienda
      */
     public void cargarSaldoCliente( String cedula, int monto ) throws Exception
     {
-    	try {
-    		if (cedula != null && monto > 0) {
-    			for (Cliente cliente : clientes) {
-    				if (cliente.darCedula() == cedula) {
-    					cliente.cargarSaldo(monto);
-    					break;
-    				}
-    			}
-    		} else if (monto < 1) {
-    			throw new Exception("El monto es menor que cero.");
-    		} else if (cedula == null) {
-    			throw new Exception("Completa el campo de cédula.");
-    		}
-    		else {
-    			throw new Exception("El número de cédula no se encuentra.");
-    		}
-    	} catch ( Exception e) {
-    		throw new Exception("Error al cargar el saldo");
-    	}
+        if (cedula == null || cedula.isEmpty()) {
+            throw new Exception("La cédula no puede ser nula o vacía.");
+        }
+        if (monto <= 0) { // Un monto <= 0 no es una recarga válida
+            throw new Exception("El monto a cargar debe ser mayor que cero.");
+        }
+
+        Cliente clienteACargar = null;
+        for (Cliente cliente : clientes) {
+            if (cliente.darCedula().equals(cedula)) { // Usar .equals() para comparar Strings
+                clienteACargar = cliente;
+                break; // Cliente encontrado, salimos del bucle
+            }
+        }
+
+        if (clienteACargar != null) {
+            clienteACargar.cargarSaldo(monto);
+        } else {
+            throw new Exception("El cliente con cédula '" + cedula + "' no se encuentra registrado.");
+        }
     }
 
     /**
@@ -234,27 +228,33 @@ public class VideoTienda
      * @throws Exception Si no hay copias disponibles.
      * @throws Exception Si el saldo del cliente no es suficiente para el alquiler.
      */
-    public int alquilarPelicula( String titulo, String cedula ) throws Exception
-    {
-    	try {
-    		if (titulo != null && cedula != null) {
-    			Pelicula aPelicula = buscarPelicula(titulo);
-    			Cliente aCliente = buscarCliente(cedula);
-    			if (aCliente != null && aPelicula != null) {
-    				Copia aCopia = aPelicula.alquilarCopia();
-    				aCliente.alquilarCopia(aCopia);
-    			} else if (aCliente == null) {
-    				throw new Exception("El cliente no existe");
-    			} else if (aPelicula == null) {
-    				throw new Exception("La película no existe");
-    			}
-    		} else {
-    			if (titulo == null) throw new Exception("Por favor ingresa un título");
-    			if (cedula == null) throw new Exception("Por favor ingresa una cédula");
-    		}
-    	} catch ( Exception e) {
-    		throw new Exception("Error al aquilar una película");
-    	}
+    public int alquilarPelicula(String titulo, String cedula) throws Exception {
+        if (titulo == null || titulo.isEmpty()) {
+            throw new Exception("Por favor ingresa un título válido.");
+        }
+        if (cedula == null || cedula.isEmpty()) {
+            throw new Exception("Por favor ingresa una cédula válida.");
+        }
+
+        Pelicula aPelicula = buscarPelicula(titulo);
+        if (aPelicula == null) {
+            throw new Exception("La película '" + titulo + "' no existe.");
+        }
+
+        Cliente aCliente = buscarCliente(cedula);
+        if (aCliente == null) {
+            throw new Exception("El cliente con cédula '" + cedula + "' no existe.");
+        }
+
+        if (aCliente.darSaldo() < tarifaDiaria) {
+            throw new Exception("El saldo del cliente no es suficiente para alquilar la película. Saldo actual: " + aCliente.darSaldo() + ", Tarifa: " + tarifaDiaria);
+        }
+
+        Copia aCopia = aPelicula.alquilarCopia();
+        
+        aCliente.alquilarCopia(aCopia);
+        aCliente.cargarSaldo(-tarifaDiaria); 
+        return aCopia.darCodigo();
     }
 
     /**
@@ -268,23 +268,29 @@ public class VideoTienda
      */
     public void devolverCopia( String titulo, int numeroCopia, String cedula ) throws Exception
     {
-		Pelicula aPelicula = buscarPelicula(titulo);
-		Cliente aCliente = buscarCliente(cedula);
-	    if (aCliente == null) {
-	    	throw new Exception("El cliente no existe");
-	    } else if (aPelicula == null) {
-	    	throw new Exception("La película no existe");
-	    }
-    	try {
-    		if (titulo != null && cedula != null && numeroCopia != 0) {
-    			if (aCliente != null && aPelicula != null) {
-    				aPelicula.devolverCopia(numeroCopia);
-    				aCliente.devolverCopia(titulo, numeroCopia);
-    			}
-    		}
-    	} catch (Exception e) {
-    		throw new Exception("Error al devolver la copia");
-    	}
+        if (titulo == null || titulo.isEmpty()) {
+            throw new Exception("El título de la película no puede ser nulo o vacío.");
+        }
+        if (cedula == null || cedula.isEmpty()) {
+            throw new Exception("La cédula del cliente no puede ser nula o vacía.");
+        }
+        
+        if (numeroCopia <= 0) {
+            throw new Exception("El número de copia debe ser un valor positivo.");
+        }
+
+        Pelicula aPelicula = buscarPelicula(titulo);
+        if (aPelicula == null) {
+            throw new Exception("La película '" + titulo + "' no existe en el catálogo.");
+        }
+
+        Cliente aCliente = buscarCliente(cedula);
+        if (aCliente == null) {
+            throw new Exception("El cliente con cédula '" + cedula + "' no existe.");
+        }
+        
+        aPelicula.devolverCopia(numeroCopia);
+        aCliente.devolverCopia(titulo, numeroCopia);
     }
     
     /**
@@ -296,18 +302,16 @@ public class VideoTienda
      * @throws Exception Si el cliente no existe.
      * @throws Exception Si el cliente no tiene la copia alquilada.
      */
-    public void agregarCopiaPelicula(String titulo) throws Exception
-    {
-    	Pelicula aPelicula = buscarPelicula(titulo);
-    	if (aPelicula == null) {
-    		throw new Exception("No se encontro la película");
-    	}
-    	try {
-    		aPelicula.agregarCopia();
-    	} catch (Exception e) {
-    		throw new Exception("Error al agregar la copia");
-    	}
+    public void agregarCopiaPelicula(String titulo) throws Exception {
+        Pelicula aPelicula = buscarPelicula(titulo);
+        if (aPelicula == null) {
+            throw new Exception("No se encontró la película");
+        }
+
+        // Si agregarCopia() no lanza excepción, no es necesario try-catch
+        aPelicula.agregarCopia();
     }
+
 
     public void modificarTarifa(int nuevaTarifa) throws Exception
     {

@@ -1,8 +1,8 @@
 /**
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
  * $Id: PanelBotonesCliente.java,v 1.1 2005/12/16 15:13:33 k-marcos Exp $ 
- * Universidad de los Andes (Bogotá - Colombia)
- * Departamento de Ingeniería de Sistemas y Computación 
+ * Universidad de los Andes (Bogotï¿½ - Colombia)
+ * Departamento de Ingenierï¿½a de Sistemas y Computaciï¿½n 
  * Licenciado bajo el esquema Academic Free License version 2.1 
  *
  * Proyecto Cupi2 (http://cupi2.uniandes.edu.co)
@@ -28,7 +28,9 @@ public class PanelBotonesCliente extends JPanel implements ActionListener
     // Constantes
     //-----------------------------------------------------------------
 
-    /**
+    private static final long serialVersionUID = 1L;
+
+	/**
      * Comando aceptar
      */
     private static final String ACEPTAR = "aceptar";
@@ -38,7 +40,7 @@ public class PanelBotonesCliente extends JPanel implements ActionListener
     //-----------------------------------------------------------------
 
     /**
-     * Diálogo donde se ubica el panel
+     * Diï¿½logo donde se ubica el panel
      */
     private DialogoConsultaCliente dialogo;
 
@@ -53,7 +55,7 @@ public class PanelBotonesCliente extends JPanel implements ActionListener
 
     /**
      * Crea el panel para los datos de un cliente
-     * @param elDialogo Diálogo donde se ubica el panel. elDialogo != null.
+     * @param elDialogo Diï¿½logo donde se ubica el panel. elDialogo != null.
      */
     public PanelBotonesCliente( DialogoConsultaCliente elDialogo )
     {
@@ -66,12 +68,12 @@ public class PanelBotonesCliente extends JPanel implements ActionListener
     }
 
     //-----------------------------------------------------------------
-    // Métodos
+    // Mï¿½todos
     //-----------------------------------------------------------------
 
     /**
      * Responde a los eventos de los botones del panel
-     * @param evento Evento generado por un botón. evento != null.
+     * @param evento Evento generado por un botï¿½n. evento != null.
      */
     public void actionPerformed( ActionEvent evento )
     {

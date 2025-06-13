@@ -1,8 +1,8 @@
 /**
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
  * $Id: PanelClientes.java,v 1.1 2005/12/16 15:13:33 k-marcos Exp $ 
- * Universidad de los Andes (Bogotá - Colombia)
- * Departamento de Ingeniería de Sistemas y Computación 
+ * Universidad de los Andes (Bogotï¿½ - Colombia)
+ * Departamento de Ingenierï¿½a de Sistemas y Computaciï¿½n 
  * Licenciado bajo el esquema Academic Free License version 2.1 
  *
  * Proyecto Cupi2 (http://cupi2.uniandes.edu.co)
@@ -36,13 +36,15 @@ public class PanelClientes extends JPanel implements ActionListener
     // Constantes
     //-----------------------------------------------------------------
 
-    /**
+    private static final long serialVersionUID = 1L;
+
+	/**
      * Comando buscar cliente
      */
     private static final String BUSCAR = "buscar";
 
     /**
-     * Comando alquilar una película a un cliente
+     * Comando alquilar una pelï¿½cula a un cliente
      */
     private static final String ALQUILAR = "alquilar";
 
@@ -56,7 +58,7 @@ public class PanelClientes extends JPanel implements ActionListener
     //-----------------------------------------------------------------
 
     /**
-     * Ventana principal de la aplicación
+     * Ventana principal de la aplicaciï¿½n
      */
     private InterfazVideotienda ventanaPrincipal;
 
@@ -64,7 +66,7 @@ public class PanelClientes extends JPanel implements ActionListener
     // Atributos de Interfaz
     //-----------------------------------------------------------------
 
-    private JList listaClientes;
+    private JList<String> listaClientes;
 
     private JButton botonBuscar;
 
@@ -78,7 +80,7 @@ public class PanelClientes extends JPanel implements ActionListener
 
     /**
      * Crea el panel para el manejo de clientes
-     * @param ventana Ventana principal de la aplicación. ventana != null.
+     * @param ventana Ventana principal de la aplicaciï¿½n. ventana != null.
      */
     public PanelClientes( InterfazVideotienda ventana )
     {
@@ -87,7 +89,7 @@ public class PanelClientes extends JPanel implements ActionListener
         setBorder( BorderFactory.createTitledBorder( "Listado de Clientes" ) );
         setLayout( new BorderLayout( ) );
 
-        listaClientes = new JList( );
+        listaClientes = new JList<String>( );
         JScrollPane scroll = new JScrollPane( );
         scroll.setViewportView( listaClientes );
         scroll.setVerticalScrollBarPolicy( JScrollPane.VERTICAL_SCROLLBAR_ALWAYS );
@@ -118,14 +120,14 @@ public class PanelClientes extends JPanel implements ActionListener
     }
 
     //-----------------------------------------------------------------
-    // Métodos
+    // Mï¿½todos
     //-----------------------------------------------------------------
 
     /**
      * Actualiza el listado de clientes
      * @param clientes Listado de clientes. clientes != null.
      */
-    public void actualizarClientes( ArrayList clientes )
+    public void actualizarClientes( ArrayList<?> clientes )
     {
         String[] lista = new String[clientes.size( )];
         Cliente c;
@@ -141,8 +143,8 @@ public class PanelClientes extends JPanel implements ActionListener
     }
 
     /**
-     * Retorna la cédula del cliente seleccionado en la lista
-     * @return cédula del cliente seleccionado. Si no hay ninguno seleccionado retorna null.
+     * Retorna la cï¿½dula del cliente seleccionado en la lista
+     * @return cï¿½dula del cliente seleccionado. Si no hay ninguno seleccionado retorna null.
      */
     public String darClienteSeleccionado( )
     {
@@ -155,7 +157,7 @@ public class PanelClientes extends JPanel implements ActionListener
 
     /**
      * Responde a los eventos de los botones del panel
-     * @param evento Evento generado por un botón. evento != null.
+     * @param evento Evento generado por un botï¿½n. evento != null.
      */
     public void actionPerformed( ActionEvent evento )
     {
@@ -169,7 +171,11 @@ public class PanelClientes extends JPanel implements ActionListener
                 JOptionPane.showMessageDialog( this, "Debe seleccionar un cliente", "Mostrar Cliente", JOptionPane.ERROR_MESSAGE );
                 return;
             }
-            ventanaPrincipal.mostrarCliente( cedula );
+            try {
+				ventanaPrincipal.mostrarCliente( cedula );
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
         }
         else if( comando.equals( AFILIAR ) )
         {

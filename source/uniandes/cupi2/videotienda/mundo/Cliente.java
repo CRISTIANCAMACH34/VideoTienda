@@ -24,7 +24,7 @@ public class Cliente {
      * @param elNombre Nombre del cliente
      * @param laDireccion Dirección del cliente
      */
-    public Cliente(String laCedula, String elNombre, String laDireccion) {
+    public Cliente(String elNombre, String laCedula , String laDireccion) {
         cedula = laCedula;
         nombre = elNombre;
         direccion = laDireccion;
@@ -118,16 +118,19 @@ public class Cliente {
         }
         return null;
     }
-
     /**
      * Devuelve una copia alquilada por el cliente
      * @param pelicula Título de la película
      * @param codigo Código de la copia
+     * @throws Exception si la copia no está alquilada
      */
-    public void devolverCopia(String pelicula, int codigo) {
+    public void devolverCopia(String pelicula, int codigo) throws Exception {
         Copia copia = buscarPeliculaAlquilada(pelicula, codigo);
         if (copia != null) {
             alquiladas.remove(copia);
+        } else {
+            throw new Exception("La copia no está alquilada por este cliente");
         }
     }
+
 }
