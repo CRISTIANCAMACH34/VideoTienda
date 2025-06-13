@@ -1,8 +1,8 @@
 /**
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
  * $Id: Pelicula.java,v 1.1 2005/12/16 15:13:33 k-marcos Exp $
- * Universidad de los Andes (Bogotá - Colombia)
- * Departamento de Ingeniería de Sistemas y Computación 
+ * Universidad de los Andes (BogotÃ¡ - Colombia)
+ * Departamento de IngenierÃ­a de Sistemas y ComputaciÃ³n 
  * Licenciado bajo el esquema Academic Free License version 2.1 
  *
  * Proyecto Cupi2 (http://cupi2.uniandes.edu.co)
@@ -15,33 +15,32 @@ package uniandes.cupi2.videotienda.mundo;
 import java.util.ArrayList;
 
 /**
- * Esta clase representa una película que se encuentra en la videotienda y
+ * Esta clase representa una pelÃ­cula que se encuentra en la videotienda y
  * de la cual puede haber copias disponibles o prestadas.
  */ 
 public class Pelicula
 {
-
     //-----------------------------------------------------------------
     // Atributos
     //-----------------------------------------------------------------
 
     /**
-     * Título de la película
+     * TÃ­tulo de la pelÃ­cula
      */
     private String titulo;
 
     /**
      * Lista de copias disponibles
      */
-    private ArrayList disponibles;
+    private ArrayList<Copia> disponibles;
 
     /**
      * Lista de copias prestadas
      */
-    private ArrayList prestadas;
+    private ArrayList<Copia> prestadas;
 
     /**
-     * Número de la siguiente copia a adicionar
+     * NÃºmero de la siguiente copia a adicionar
      */
     private int codigoSiguienteCopia;
 
@@ -50,66 +49,100 @@ public class Pelicula
     //-----------------------------------------------------------------
 
     /**
-     * Crea una película de la videotienda con el título dado. <br>
-     * <b>post: </b> La película se crea sin copias disponibles ni prestadas.
-     * @param unTitulo Título de la película. unTitulo != null.
+     * Crea una pelÃ­cula de la videotienda con el tÃ­tulo dado.
+     * <b>post: </b> La pelÃ­cula se crea sin copias disponibles ni prestadas.
+     * @param unTitulo TÃ­tulo de la pelÃ­cula. unTitulo != null.
      */
-    public Pelicula( String unTitulo )
+    public Pelicula(String unTitulo)
     {
-    	//TODO implementar inicializando los atributos
+        //Se verifica que el titulo no sea null
+        if(unTitulo == null) {
+            throw new IllegalArgumentException("El tÃ­tulo no puede estar vacÃ­o");
+        }
+        
+        this.titulo = unTitulo;
+        this.disponibles = new ArrayList<Copia>();
+        this.prestadas = new ArrayList<Copia>();
+        this.codigoSiguienteCopia = 1;
     }
 
     //-----------------------------------------------------------------
-    // Métodos
+    // MÃ©todos
     //-----------------------------------------------------------------
 
     /**
-     * Adiciona una nueva copia de la película. <br>
-     * <b>post: </b>La lista de películas disponibles tiene una nueva copia.
-     * @return código de la copia creada. código >= 1;
+     * Adiciona una nueva copia de la pelÃ­cula.
+     * <b>post: </b>La lista de pelÃ­culas disponibles tiene una nueva copia.
+     * @return cÃ³digo de la copia creada. cÃ³digo >= 1;
      */
-    public int agregarCopia( )
+    public int agregarCopia()
     {
-    	//TODO implementar. Recuerde retornar lo indicado en la documentación. 
+        Copia nuevaCopia = new Copia(this.titulo, this.codigoSiguienteCopia);
+        this.disponibles.add(nuevaCopia);
+        this.codigoSiguienteCopia++;
+        return nuevaCopia.darCodigo();
     }
 
     /**
-     * Retorna una copia de película para alquilar si hay disponibles. <br>
+     * Retorna una copia de pelÃ­cula para alquilar si hay disponibles.
      * <b>post: </b> la copia queda en la lista de prestadas.
      * @return Copia que ha sido alquilada o null si no hay disponibles.
      */
-    public Copia alquilarCopia( )
+    public Copia alquilarCopia()
     {
-    	//TODO implementar. Recuerde retornar lo indicado en la documentación.
+        if(this.disponibles.isEmpty()){
+            return null;
+        }
+        
+        Copia copia = this.disponibles.remove(0);
+        this.prestadas.add(copia);
+        return copia; 
     }
 
     /**
-     * Devuelve una copia de la película y la coloca como disponible. <br>
-     * <b>post: </b> regresa la copia a la lista de disponibles, sólo si está prestada.
-     * @param codigoCopia Código de la copia que se quiere devolver.
-     * @throws Exception Si la copia a devolver no está prestada.
+     * Devuelve una copia de la pelÃ­cula y la coloca como disponible.
+     * <b>post: </b> regresa la copia a la lista de disponibles, sÃ³lo si estÃ¡ prestada.
+     * @param codigoCopia CÃ³digo de la copia que se quiere devolver.
+     * @throws Exception Si la copia a devolver no estÃ¡ prestada.
      */
-
-     //TODO Definir la signatura del método de acuerdo a la documentación e implementarlo.
+    public void devolverCopia(int codigoCopia) throws Exception {
+        Copia copia = null;
+        for(Copia c : this.prestadas) {
+            if(c.darCodigo() == codigoCopia) {
+                copia = c;
+                break;    
+            }
+        }
+        
+        if(copia == null) {
+            throw new Exception("La copia con el cÃ³digo " + codigoCopia + " no estÃ¡ prestada");
+        }
+        this.prestadas.remove(copia);
+        this.disponibles.add(copia);
+    }
 
     /**
-     * Retorna el título de la película.
-     * @return título de la película.
-     */
-    public String darTitulo( )
+     * Retorna el tÃ­tulo de la pelÃ­cula.
+     * @return tÃ­tulo de la pelÃ­cula.
+     */    
+    public String darTitulo()
     {
         return titulo;
     }
 
     /**
-     * Retorna la cantidad total de copias que existen de la película en la videotienda
+     * Retorna la cantidad total de copias que existen de la pelÃ­cula en la videotienda
      * @return entero con la cantidad de copias que existen en la tienda
      */
-    //TODO Definir la signatura del método de acuerdo a la documentación e implementarlo.
+    public int darTotalCopias() {
+        return this.disponibles.size() + this.prestadas.size();
+    }
 
     /**
-     * Retorna el número de copias disponibles
-     * @return número de copias disponibles
+     * Retorna el nÃºmero de copias disponibles
+     * @return nÃºmero de copias disponibles
      */
-    //TODO Definir la signatura del método de acuerdo a la documentación e implementarlo.
+    public int darNumeroDisponibles() {
+        return this.disponibles.size();
+    }
 }
